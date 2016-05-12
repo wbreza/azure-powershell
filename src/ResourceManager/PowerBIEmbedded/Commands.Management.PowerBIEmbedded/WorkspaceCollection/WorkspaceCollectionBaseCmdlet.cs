@@ -18,14 +18,20 @@ using Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models;
 using Microsoft.Azure.Commands.ResourceManager.Common;
 using Microsoft.Azure.Common.Authentication;
 using Microsoft.Azure.Management.PowerBIEmbedded;
+using Microsoft.Azure.Management.PowerBIEmbedded.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollection
 {
     public class WorkspaceCollectionBaseCmdlet : AzureRMCmdlet
     {
-        protected const string WorkspaceCollectionNounStr = "AzureRmPowerBIWorkspaceCollection";
         protected const string ArmApiVersion = "2016-01-29";
+
+        // Command Names
+        protected const string ResourceGroupParameterSet = "ResourceGroupParameterSet";
+        protected const string WorkspaceCollectionNameParameterSet = "WorkspaceCollectionNameParameterSet";
+        protected const string LocationParameterSet = "LocationParameterSet";
+        protected const string WorkspaceCollectionAccessKeyNameParameterSet = "WorkspaceCollectionAccessKeyNameParameterSet";
 
         private IPowerBIEmbeddedManagementClient powerBIClient;
 
@@ -50,6 +56,23 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         protected void WriteWorkspaceCollection(Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection workspaceCollection)
         {
             WriteObject(PSWorkspaceCollection.Create(workspaceCollection));
+        }
+
+        protected void WriteWorkspaceCollectionAccessKeys(WorkspaceCollectionAccessKeys accessKeys)
+        {
+            WriteObject(PSWorkspaceCollectionAccessKeys.Create(accessKeys));
+        }
+
+        protected void WriteWorkspace(Workspace workspace)
+        {
+            WriteObject(PSWorkspace.Create(workspace));
+        }
+
+        protected void WriteWorkspaceList(IEnumerable<Workspace> workspaces)
+        {
+            List<PSWorkspace> output = new List<PSWorkspace>();
+            workspaces.ForEach(workspace => output.Add(PSWorkspace.Create(workspace)));
+            WriteObject(output, true);
         }
 
         protected void WriteWorkspaceCollectionList(IEnumerable<Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection> workspaceCollections)

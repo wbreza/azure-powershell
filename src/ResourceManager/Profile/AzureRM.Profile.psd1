@@ -56,11 +56,7 @@ ScriptsToProcess = @()
 # Type files (.ps1xml) to be loaded when importing this module  
 TypesToProcess = @()
   
-# Format files (.ps1xml) to be loaded when importing this module  
-FormatsToProcess = @(
-	'.\Microsoft.Azure.Commands.Profile.format.ps1xml'
-)
-  
+ 
 # Modules to import as nested modules of the module specified in ModuleToProcess  
 NestedModules = @(  
     '.\Microsoft.Azure.Commands.Profile.dll'

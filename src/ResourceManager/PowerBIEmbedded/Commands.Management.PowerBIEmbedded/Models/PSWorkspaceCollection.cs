@@ -20,16 +20,6 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models
         public string Id { get; set; }
         public string Location { get; set; }
 
-        /// <summary>
-        /// Return a string representation of this storage account
-        /// </summary>
-        /// <returns>null</returns>
-        public override string ToString()
-        {
-            // Allow listing workspace collection contents through piping
-            return null;
-        }
-
         public static PSWorkspaceCollection Create(Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection workspaceCollection)
         {
             return new PSWorkspaceCollection
@@ -38,6 +28,16 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models
                 Name = workspaceCollection.Name,
                 Location = workspaceCollection.Location
             };
+        }
+
+        /// <summary>
+        /// Return a string representation of this storage account
+        /// </summary>
+        /// <returns>null</returns>
+        public override string ToString()
+        {
+            // Allow listing workspace collection contents through piping
+            return null;
         }
     }
 }

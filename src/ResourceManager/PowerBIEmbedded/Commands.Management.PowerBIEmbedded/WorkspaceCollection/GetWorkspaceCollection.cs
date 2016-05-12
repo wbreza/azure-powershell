@@ -19,29 +19,24 @@ using Microsoft.Azure.Management.PowerBIEmbedded;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollection
 {
-    [Cmdlet(VerbsCommon.Get, WorkspaceCollectionNounStr), OutputType(typeof(PSWorkspaceCollection))]
+    [Cmdlet(VerbsCommon.Get, Nouns.WorkspaceCollection), OutputType(typeof(PSWorkspaceCollection))]
     public class GetWorkspaceCollection : WorkspaceCollectionBaseCmdlet
     {
-        protected const string ResourceGroupParameterSet = "ResourceGroupParameterSet";
-        protected const string WorkspaceCollectionNameParameterSet = "WorkspaceCollectionNameParameterSet";
-
         [Parameter(
             Position = 0,
             Mandatory = false,
             ParameterSetName = ResourceGroupParameterSet,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Resource Group Name.")]
-
-        [Parameter(
-            Position = 1,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = WorkspaceCollectionNameParameterSet,
-            HelpMessage = "Workspace Collection Name.")]
-
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = WorkspaceCollectionNameParameterSet,
+            HelpMessage = "Workspace Collection Name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 

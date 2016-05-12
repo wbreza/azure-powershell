@@ -59,9 +59,7 @@ ScriptsToProcess = @()
 TypesToProcess = @()
   
 # Format files (.ps1xml) to be loaded when importing this module  
-FormatsToProcess = @(
-    '.\Microsoft.Azure.Commands.Management.PowerBIEmbedded.format.ps1xml'
-)
+FormatsToProcess = @()
   
 # Modules to import as nested modules of the module specified in ModuleToProcess  
 NestedModules = @(  
