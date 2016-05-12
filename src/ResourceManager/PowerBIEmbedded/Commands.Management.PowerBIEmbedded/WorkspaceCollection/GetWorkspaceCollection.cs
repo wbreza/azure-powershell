@@ -39,10 +39,11 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         [Parameter(
             Position = 1,
-            Mandatory = false,
+            Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = WorkspaceCollectionNameParameterSet,
             HelpMessage = "Workspace Collection Name.")]
+        [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         public override void ExecuteCmdlet()

@@ -24,7 +24,6 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         [Parameter(
             Position = 0,
             Mandatory = true,
-            ParameterSetName = ResourceGroupParameterSet,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Resource Group Name.")]
         [ValidateNotNullOrEmpty]
@@ -34,7 +33,6 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = WorkspaceCollectionNameParameterSet,
             HelpMessage = "Workspace Collection Name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
