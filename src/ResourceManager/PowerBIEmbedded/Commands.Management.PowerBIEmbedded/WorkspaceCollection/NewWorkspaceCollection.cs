@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        public async override void ExecuteCmdlet()
+        public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
                 Sku = new AzureSku { Name = "S1", Tier = "Standard" }
             };
 
-            var workspce = await this.PowerBIClient.CreateWorkspaceCollectionAsync(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion, createWorkspaceRequest);
+            var workspce = this.PowerBIClient.CreateWorkspaceCollection(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion, createWorkspaceRequest);
             this.WriteWorkspaceCollection(workspce);
         }
     }

@@ -28,6 +28,12 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             ParameterSetName = ResourceGroupParameterSet,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Resource Group Name.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ParameterSetName = WorkspaceCollectionNameParameterSet,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Resource Group Name.")]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
@@ -37,10 +43,9 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             ValueFromPipelineByPropertyName = true,
             ParameterSetName = WorkspaceCollectionNameParameterSet,
             HelpMessage = "Workspace Collection Name.")]
-        [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        public async override void ExecuteCmdlet()
+        public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
 
@@ -49,20 +54,21 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             // Workspace collections within a subscription
             if (string.IsNullOrWhiteSpace(this.Name) && string.IsNullOrWhiteSpace(this.ResourceGroupName))
             {
-                var subscriptionCollections = await this.PowerBIClient.GetWorkspacesCollectionsBySubscriptionAsync(this.SubscriptionId, ArmApiVersion);
+                var subscriptionCollections = this.PowerBIClient.GetWorkspacesCollectionsInSubscription(this.SubscriptionId, ArmApiVersion);
                 workspaceCollections.AddRange(subscriptionCollections.Value);
             }
 
             // Workspace collections within a resource group
-            if (string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.ResourceGroupName))
+            else if (string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.ResourceGroupName))
             {
-                var resourceGroupCollections = await this.PowerBIClient.GetWorkspacesCollectionsByResourceGroupAsync(this.SubscriptionId, this.ResourceGroupName, ArmApiVersion);
+                var resourceGroupCollections = this.PowerBIClient.GetWorkspacesCollectionsInResourceGroup(this.SubscriptionId, this.ResourceGroupName, ArmApiVersion);
                 workspaceCollections.AddRange(resourceGroupCollections.Value);
             }
 
-            if (!string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.ResourceGroupName))
+            // Get single workspace by resource group and name
+            else if (!string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.ResourceGroupName))
             {
-                var workspace = await this.PowerBIClient.GetWorkspaceCollectionAsync(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion);
+                var workspace = this.PowerBIClient.GetWorkspaceCollection(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion);
                 workspaceCollections.Add(workspace);
             }
 

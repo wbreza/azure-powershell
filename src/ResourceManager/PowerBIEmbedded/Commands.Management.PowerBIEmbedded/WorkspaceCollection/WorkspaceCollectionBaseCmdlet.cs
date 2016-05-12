@@ -55,31 +55,31 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         protected void WriteWorkspaceCollection(Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection workspaceCollection)
         {
-            WriteObject(PSWorkspaceCollection.Create(workspaceCollection));
+            this.WriteObject(PSWorkspaceCollection.Create(workspaceCollection));
         }
 
         protected void WriteWorkspaceCollectionAccessKeys(WorkspaceCollectionAccessKeys accessKeys)
         {
-            WriteObject(PSWorkspaceCollectionAccessKeys.Create(accessKeys));
+            this.WriteObject(PSWorkspaceCollectionAccessKeys.Create(accessKeys));
         }
 
         protected void WriteWorkspace(Workspace workspace)
         {
-            WriteObject(PSWorkspace.Create(workspace));
+            this.WriteObject(PSWorkspace.Create(workspace));
         }
 
         protected void WriteWorkspaceList(IEnumerable<Workspace> workspaces)
         {
             List<PSWorkspace> output = new List<PSWorkspace>();
             workspaces.ForEach(workspace => output.Add(PSWorkspace.Create(workspace)));
-            WriteObject(output, true);
+            this.WriteObject(output, true);
         }
 
         protected void WriteWorkspaceCollectionList(IEnumerable<Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection> workspaceCollections)
         {
             List<PSWorkspaceCollection> output = new List<PSWorkspaceCollection>();
             workspaceCollections.ForEach(workspaceCollection => output.Add(PSWorkspaceCollection.Create(workspaceCollection)));
-            WriteObject(output, true);
+            this.WriteObject(output, true);
         }
     }
 }
