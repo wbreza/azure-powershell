@@ -18,7 +18,7 @@ using Microsoft.Azure.Management.PowerBIEmbedded;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollection
 {
-    [Cmdlet(VerbsCommon.Get, Nouns.WorkspaceCollectionAccessKeys), OutputType(typeof(PSWorkspaceCollectionAccessKey))]
+    [Cmdlet(VerbsCommon.Get, Nouns.WorkspaceCollectionAccessKey), OutputType(typeof(PSWorkspaceCollectionAccessKey))]
     public class GetWorkspaceCollectionAccessKeys : WorkspaceCollectionBaseCmdlet
     {
         [Parameter(
@@ -35,13 +35,11 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Workspace Collection Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string WorkspaceCollectionName { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
-            var accessKeys = this.PowerBIClient.GetWorkspaceCollectionAccessKeys(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion);
+            var accessKeys = this.PowerBIClient.GetWorkspaceCollectionAccessKeys(this.SubscriptionId, this.ResourceGroupName, this.WorkspaceCollectionName, ArmApiVersion);
             this.WriteWorkspaceCollectionAccessKeys(accessKeys);
         }
     }

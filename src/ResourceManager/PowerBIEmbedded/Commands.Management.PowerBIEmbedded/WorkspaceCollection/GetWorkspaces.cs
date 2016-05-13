@@ -39,9 +39,12 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
+            var workspaces = this.PowerBIClient.GetWorkspaces(
+                this.SubscriptionId,
+                this.ResourceGroupName,
+                this.WorkspaceCollectionName,
+                ArmApiVersion);
 
-            var workspaces = this.PowerBIClient.GetWorkspaces(this.SubscriptionId, this.ResourceGroupName, this.WorkspaceCollectionName, ArmApiVersion);
             this.WriteWorkspaceList(workspaces.Value);
         }
     }

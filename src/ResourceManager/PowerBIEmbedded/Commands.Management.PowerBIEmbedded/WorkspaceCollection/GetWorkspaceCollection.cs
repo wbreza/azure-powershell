@@ -44,36 +44,35 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             ParameterSetName = WorkspaceCollectionNameParameterSet,
             HelpMessage = "Workspace Collection Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string WorkspaceCollectionName { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
             var workspaceCollections = new List<Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection>();
 
-            // Workspace collections within a subscription
-            if (string.IsNullOrWhiteSpace(this.Name) && string.IsNullOrWhiteSpace(this.ResourceGroupName))
+            if (ParameterSetName == ResourceGroupParameterSet)
             {
-                var subscriptionCollections = this.PowerBIClient.GetWorkspacesCollectionsInSubscription(this.SubscriptionId, ArmApiVersion);
-                workspaceCollections.AddRange(subscriptionCollections.Value);
-            }
+                // Workspace collections within a subscription
+                if (string.IsNullOrEmpty(this.ResourceGroupName))
+                {
+                    var collections = this.PowerBIClient.GetWorkspacesCollectionsInSubscription(this.SubscriptionId, ArmApiVersion);
+                    this.WriteWorkspaceCollectionList(collections.Value);
+                }
 
-            // Workspace collections within a resource group
-            else if (string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.ResourceGroupName))
-            {
-                var resourceGroupCollections = this.PowerBIClient.GetWorkspacesCollectionsInResourceGroup(this.SubscriptionId, this.ResourceGroupName, ArmApiVersion);
-                workspaceCollections.AddRange(resourceGroupCollections.Value);
+                // Workspace collections within a resource group
+                else
+                {
+                    var collections = this.PowerBIClient.GetWorkspacesCollectionsInResourceGroup(this.SubscriptionId, this.ResourceGroupName, ArmApiVersion);
+                    this.WriteWorkspaceCollectionList(collections.Value);
+                }
             }
 
             // Get single workspace by resource group and name
-            else if (!string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.ResourceGroupName))
+            else
             {
-                var workspace = this.PowerBIClient.GetWorkspaceCollection(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion);
-                workspaceCollections.Add(workspace);
+                var collection = this.PowerBIClient.GetWorkspaceCollection(this.SubscriptionId, this.ResourceGroupName, this.WorkspaceCollectionName, ArmApiVersion);
+                this.WriteWorkspaceCollection(collection);
             }
-
-            this.WriteWorkspaceCollectionList(workspaceCollections);
         }
     }
 }

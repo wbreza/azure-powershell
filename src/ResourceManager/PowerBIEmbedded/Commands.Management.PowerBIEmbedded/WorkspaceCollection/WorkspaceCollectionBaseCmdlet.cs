@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure.Commands.Common.Authentication.Models;
 using Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models;
 using Microsoft.Azure.Commands.ResourceManager.Common;
@@ -33,6 +34,9 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         protected const string LocationParameterSet = "LocationParameterSet";
         protected const string WorkspaceCollectionAccessKeyNameParameterSet = "WorkspaceCollectionAccessKeyNameParameterSet";
 
+        // Error Strings
+        protected const string ErrorWhitespace = "must contain non-whitespace characters";
+
         private IPowerBIEmbeddedManagementClient powerBIClient;
 
         protected IPowerBIEmbeddedManagementClient PowerBIClient
@@ -42,12 +46,9 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
                 if (this.powerBIClient == null)
                 {
                     this.powerBIClient = AzureSession.ClientFactory.CreateArmClient<PowerBIEmbeddedManagementClient>(DefaultProfile.Context, AzureEnvironment.Endpoint.ResourceManager);
-                    return this.powerBIClient;
                 }
-                else
-                {
-                    return this.powerBIClient;
-                }
+
+                return this.powerBIClient;
             }
         }
 
@@ -70,16 +71,12 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         protected void WriteWorkspaceList(IEnumerable<Workspace> workspaces)
         {
-            List<PSWorkspace> output = new List<PSWorkspace>();
-            workspaces.ForEach(workspace => output.Add(PSWorkspace.Create(workspace)));
-            this.WriteObject(output, true);
+            this.WriteObject(workspaces.Select(w => PSWorkspace.Create(w)));
         }
 
         protected void WriteWorkspaceCollectionList(IEnumerable<Azure.Management.PowerBIEmbedded.Models.WorkspaceCollection> workspaceCollections)
         {
-            List<PSWorkspaceCollection> output = new List<PSWorkspaceCollection>();
-            workspaceCollections.ForEach(workspaceCollection => output.Add(PSWorkspaceCollection.Create(workspaceCollection)));
-            this.WriteObject(output, true);
+            this.WriteObject(workspaceCollections.Select(wc => PSWorkspaceCollection.Create(wc)));
         }
     }
 }

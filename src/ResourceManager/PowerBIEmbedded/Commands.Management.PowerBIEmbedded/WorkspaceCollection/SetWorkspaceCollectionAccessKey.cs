@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Workspace Collection Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string WorkspaceCollectionName { get; set; }
 
         [Parameter(
             Position = 2,
@@ -48,14 +48,15 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
+            var accessKeyRequest = new WorkspaceCollectionAccessKey(this.KeyName);
 
-            var accessKeyRequest = new WorkspaceCollectionAccessKey
-            {
-                KeyName = this.KeyName
-            };
+            var accessKeys = this.PowerBIClient.RegenerateWorkspaceCollectionAccessKey(
+                this.SubscriptionId,
+                this.ResourceGroupName,
+                this.WorkspaceCollectionName,
+                ArmApiVersion,
+                accessKeyRequest);
 
-            var accessKeys = this.PowerBIClient.RegenerateWorkspaceCollectionAccessKey(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion, accessKeyRequest);
             this.WriteWorkspaceCollectionAccessKeys(accessKeys);
         }
     }

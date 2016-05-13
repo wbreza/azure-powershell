@@ -36,21 +36,18 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Workspace Collection Name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string WorkspaceCollectionName { get; set; }
 
         [Parameter(
-        Position = 2,
+            Position = 2,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = LocationParameterSet,
             HelpMessage = "Location.")]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
             // TODO: This will need to be udpated to params once we support multiple locations / skus
             var createWorkspaceRequest = new CreateWorkspaceCollectionRequest
             {
@@ -58,8 +55,14 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
                 Sku = new AzureSku { Name = "S1", Tier = "Standard" }
             };
 
-            var workspce = this.PowerBIClient.CreateWorkspaceCollection(this.SubscriptionId, this.ResourceGroupName, this.Name, ArmApiVersion, createWorkspaceRequest);
-            this.WriteWorkspaceCollection(workspce);
+            var workspace = this.PowerBIClient.CreateWorkspaceCollection(
+                this.SubscriptionId,
+                this.ResourceGroupName,
+                this.WorkspaceCollectionName,
+                ArmApiVersion,
+                createWorkspaceRequest);
+
+            this.WriteWorkspaceCollection(workspace);
         }
     }
 }
