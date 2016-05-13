@@ -12,21 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using Microsoft.Azure.Management.PowerBIEmbedded.Models;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models
 {
-    public class PSWorkspaceCollectionAccessKeys
+    public class PSWorkspaceCollectionAccessKey
     {
-        public string Key1 { get; set; }
-        public string Key2 { get; set; }
+        public string KeyName { get; set; }
+        public string Value { get; set; }
 
-        public static PSWorkspaceCollectionAccessKeys Create(WorkspaceCollectionAccessKeys accessKeys)
+        public static IList<PSWorkspaceCollectionAccessKey> CreateList(WorkspaceCollectionAccessKeys accessKeys)
         {
-            return new PSWorkspaceCollectionAccessKeys
+            return new List<PSWorkspaceCollectionAccessKey>
             {
-                Key1 = accessKeys.Key1,
-                Key2 = accessKeys.Key2
+                new PSWorkspaceCollectionAccessKey
+                {
+                    KeyName = "Key1",
+                    Value = accessKeys.Key1
+                },
+                new PSWorkspaceCollectionAccessKey
+                {
+                    KeyName = "Key2",
+                    Value = accessKeys.Key2
+                }
             };
         }
 

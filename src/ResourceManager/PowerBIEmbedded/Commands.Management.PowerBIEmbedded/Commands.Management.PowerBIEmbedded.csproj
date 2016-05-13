@@ -62,7 +62,7 @@
     </Reference>
     <Reference Include="Microsoft.Azure.Management.PowerBIEmbedded, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Azure.Management.PowerBIEmbedded.1.0.2-preview\lib\net45\Microsoft.Azure.Management.PowerBIEmbedded.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Azure.Management.PowerBIEmbedded.1.0.3-preview\lib\net45\Microsoft.Azure.Management.PowerBIEmbedded.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Edm">
@@ -136,7 +136,7 @@
   <ItemGroup>
     <Compile Include="Models\PSWorkspace.cs" />
     <Compile Include="Models\PSWorkspaceCollection.cs" />
-    <Compile Include="Models\PSWorkspaceCollectionAccessKeys.cs" />
+    <Compile Include="Models\PSWorkspaceCollectionAccessKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkspaceCollection\GetWorkspaceCollection.cs" />
     <Compile Include="WorkspaceCollection\GetWorkspaceCollectionAccessKeys.cs" />

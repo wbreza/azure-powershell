@@ -51,6 +51,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         {
             base.ExecuteCmdlet();
 
+            // TODO: This will need to be udpated to params once we support multiple locations / skus
             var createWorkspaceRequest = new CreateWorkspaceCollectionRequest
             {
                 Location = this.Location,

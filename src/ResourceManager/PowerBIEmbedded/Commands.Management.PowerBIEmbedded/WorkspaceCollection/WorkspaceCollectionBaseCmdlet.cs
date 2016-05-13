@@ -60,7 +60,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         protected void WriteWorkspaceCollectionAccessKeys(WorkspaceCollectionAccessKeys accessKeys)
         {
-            this.WriteObject(PSWorkspaceCollectionAccessKeys.Create(accessKeys));
+            this.WriteObject(PSWorkspaceCollectionAccessKey.CreateList(accessKeys), true);
         }
 
         protected void WriteWorkspace(Workspace workspace)

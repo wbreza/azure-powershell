@@ -18,6 +18,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
     {
         public const string WorkspaceCollection = "AzureRmPowerBIWorkspaceCollection";
         public const string WorkspaceCollectionAccessKeys = "AzureRmPowerBIWorkspaceCollectionAccessKeys";
+        public const string WorkspaceCollectionAccessKey = "AzureRmPowerBIWorkspaceCollectionAccessKey";
         public const string Workspace = "AzureRmPowerBIWorkspace";
     }
 }
