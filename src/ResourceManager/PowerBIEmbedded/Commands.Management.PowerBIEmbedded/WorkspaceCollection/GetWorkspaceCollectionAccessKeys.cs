@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         public override void ExecuteCmdlet()
         {
-            var accessKeys = this.PowerBIClient.GetWorkspaceCollectionAccessKeys(this.SubscriptionId, this.ResourceGroupName, this.WorkspaceCollectionName, ArmApiVersion);
+            var accessKeys = this.PowerBIClient.WorkspaceCollections.GetAccessKeys(this.ResourceGroupName, this.WorkspaceCollectionName);
             this.WriteWorkspaceCollectionAccessKeys(accessKeys);
         }
     }

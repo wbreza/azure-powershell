@@ -55,22 +55,22 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
                 // Workspace collections within a subscription
                 if (string.IsNullOrEmpty(this.ResourceGroupName))
                 {
-                    var collections = this.PowerBIClient.GetWorkspacesCollectionsInSubscription(this.SubscriptionId, ArmApiVersion);
-                    this.WriteWorkspaceCollectionList(collections.Value);
+                    var collections = this.PowerBIClient.WorkspaceCollections.ListBySubscription();
+                    this.WriteWorkspaceCollectionList(collections);
                 }
 
                 // Workspace collections within a resource group
                 else
                 {
-                    var collections = this.PowerBIClient.GetWorkspacesCollectionsInResourceGroup(this.SubscriptionId, this.ResourceGroupName, ArmApiVersion);
-                    this.WriteWorkspaceCollectionList(collections.Value);
+                    var collections = this.PowerBIClient.WorkspaceCollections.ListByResourceGroup(this.ResourceGroupName);
+                    this.WriteWorkspaceCollectionList(collections);
                 }
             }
 
             // Get single workspace by resource group and name
             else
             {
-                var collection = this.PowerBIClient.GetWorkspaceCollection(this.SubscriptionId, this.ResourceGroupName, this.WorkspaceCollectionName, ArmApiVersion);
+                var collection = this.PowerBIClient.WorkspaceCollections.GetByName(this.ResourceGroupName, this.WorkspaceCollectionName);
                 this.WriteWorkspaceCollection(collection);
             }
         }

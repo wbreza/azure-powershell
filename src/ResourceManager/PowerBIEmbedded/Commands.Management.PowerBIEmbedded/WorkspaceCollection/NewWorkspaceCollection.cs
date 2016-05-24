@@ -51,15 +51,12 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
             // TODO: This will need to be udpated to params once we support multiple locations / skus
             var createWorkspaceRequest = new CreateWorkspaceCollectionRequest
             {
-                Location = this.Location,
-                Sku = new AzureSku { Name = "S1", Tier = "Standard" }
+                Location = this.Location
             };
 
-            var workspace = this.PowerBIClient.CreateWorkspaceCollection(
-                this.SubscriptionId,
+            var workspace = this.PowerBIClient.WorkspaceCollections.Create(
                 this.ResourceGroupName,
                 this.WorkspaceCollectionName,
-                ArmApiVersion,
                 createWorkspaceRequest);
 
             this.WriteWorkspaceCollection(workspace);

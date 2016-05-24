@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models;
 using Microsoft.Azure.Management.PowerBIEmbedded;
@@ -48,13 +49,11 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
 
         public override void ExecuteCmdlet()
         {
-            var accessKeyRequest = new WorkspaceCollectionAccessKey(this.KeyName);
+            var accessKeyRequest = new WorkspaceCollectionAccessKey((AccessKeyName)Enum.Parse(typeof(AccessKeyName), this.KeyName));
 
-            var accessKeys = this.PowerBIClient.RegenerateWorkspaceCollectionAccessKey(
-                this.SubscriptionId,
+            var accessKeys = this.PowerBIClient.WorkspaceCollections.RegenerateKey(
                 this.ResourceGroupName,
                 this.WorkspaceCollectionName,
-                ArmApiVersion,
                 accessKeyRequest);
 
             this.WriteWorkspaceCollectionAccessKeys(accessKeys);
