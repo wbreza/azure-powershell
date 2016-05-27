@@ -12,14 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models;
 using Microsoft.Azure.Management.PowerBIEmbedded;
+using Microsoft.Azure.Management.PowerBIEmbedded.Models;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollection
 {
-    [Cmdlet(VerbsCommon.Get, Nouns.Workspace), OutputType(typeof(PSWorkspace))]
-    public class GetWorkspaces : WorkspaceCollectionBaseCmdlet
+    [Cmdlet(VerbsCommon.Reset, Nouns.WorkspaceCollectionAccessKeys), OutputType(typeof(PSWorkspaceCollectionAccessKey))]
+    public class ResetWorkspaceCollectionAccessKeys : WorkspaceCollectionBaseCmdlet
     {
         [Parameter(
             Position = 0,
@@ -37,10 +41,33 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         [ValidateNotNullOrEmpty]
         public string WorkspaceCollectionName { get; set; }
 
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Reset Access Key1.")]
+        public SwitchParameter Key1 { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Reset Access Key2.")]
+        public SwitchParameter Key2 { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            var workspaces = this.PowerBIClient.Workspaces.List(this.ResourceGroupName, this.WorkspaceCollectionName);
-            this.WriteWorkspaceList(workspaces);
+            var keys = new List<string>();
+            if (Key1) keys.Add(nameof(Key1));
+            if (Key2) keys.Add(nameof(Key2));
+
+            if (keys.Count == 0) throw new ArgumentException("At least one of Key1 or Key2 switch required");
+
+            foreach (var key in keys)
+            {
+                var accessKeyRequest = new WorkspaceCollectionAccessKey((AccessKeyName)Enum.Parse(typeof(AccessKeyName), key));
+
+                var accessKeys = this.PowerBIClient.WorkspaceCollections.RegenerateKey(
+                    this.ResourceGroupName,
+                    this.WorkspaceCollectionName,
+                    accessKeyRequest);
+            }
         }
     }
 }

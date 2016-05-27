@@ -100,9 +100,9 @@ function Get-RandomItemName
 
 <#
 .SYNOPSIS
-Gets valid resource name for compute test
+Gets valid resource name for embed test
 #>
-function Get-StorageManagementTestResourceName
+function Get-PowerBIEmbeddedTestResourceName
 {
     $stack = Get-PSCallStack
     $testName = $null;

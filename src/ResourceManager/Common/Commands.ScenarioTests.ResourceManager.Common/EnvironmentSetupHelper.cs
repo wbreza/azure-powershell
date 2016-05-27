@@ -103,6 +103,15 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             }
         }
 
+        public string RMPowerBIEmbeddedModule
+        {
+            get
+            {
+                return Path.Combine(this.PackageDirectory,
+                                     @"ResourceManager\AzureResourceManager\AzureRM.PowerBIEmbedded\AzureRM.PowerBIEmbedded.psd1");
+            }
+        }
+
         //TODO: clarify (data plane should not be under ARM folder)
         public string RMStorageDataPlaneModule
         {

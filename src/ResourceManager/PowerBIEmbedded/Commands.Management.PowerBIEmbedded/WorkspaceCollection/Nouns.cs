@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
     public static class Nouns
     {
         public const string WorkspaceCollection = "WorkspaceCollection";
-        public const string WorkspaceCollectionAccessKey = "WorkspaceCollectionAccessKey";
+        public const string WorkspaceCollectionAccessKeys = "WorkspaceCollectionAccessKeys";
         public const string Workspace = "Workspace";
     }
 }

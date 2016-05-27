@@ -24,8 +24,9 @@ using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
-namespace Microsoft.Azure.Commands.Management.Storage.Test.ScenarioTests
+namespace Microsoft.Azure.Commands.Management.PBIE.Test.ScenarioTests
 {
     public class TestController
     {
@@ -80,14 +81,19 @@ namespace Microsoft.Azure.Commands.Management.Storage.Test.ScenarioTests
             string callingClassType,
             string mockName)
         {
-            Dictionary<string, string> d = new Dictionary<string, string>();
-            d.Add("Microsoft.Resources", null);
-            d.Add("Microsoft.Features", null);
-            d.Add("Microsoft.Authorization", null);
-            d.Add("Microsoft.Storage", null);
-            var providersToIgnore = new Dictionary<string, string>();
-            providersToIgnore.Add("Microsoft.Azure.Management.Resources.ResourceManagementClient", "2016-02-01");
-            HttpMockServer.Matcher = new PermissiveRecordMatcherWithApiExclusion(true, d, providersToIgnore);
+            var providersToIgnore = new Dictionary<string, string> {
+                { "Microsoft.Resources"     , null },
+                { "Microsoft.Features"      , null },
+                { "Microsoft.Authorization" , null },
+                { "Microsoft.Storage"       , null },
+            };
+
+            var userAgentsToIgnore = new Dictionary<string, string> {
+                { "Microsoft.Azure.Management.Resources.ResourceManagementClient", "2016-02-01" }
+            };
+
+            HttpMockServer.Matcher = new PermissiveRecordMatcherWithApiExclusion(true, providersToIgnore, userAgentsToIgnore);
+            HttpMockServer.RecordsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SessionRecords");
 
             using (UndoContext context = UndoContext.Current)
             {
@@ -107,11 +113,11 @@ namespace Microsoft.Azure.Commands.Management.Storage.Test.ScenarioTests
                 var callingClassName = callingClassType
                                         .Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)
                                         .Last();
+
                 helper.SetupModules(AzureModule.AzureResourceManager,
                     helper.RMProfileModule,
                     helper.RMResourceModule,
-                    helper.RMStorageDataPlaneModule,
-                    helper.RMStorageModule,
+                    helper.RMPowerBIEmbeddedModule,
                     "ScenarioTests\\Common.ps1",
                     "ScenarioTests\\" + callingClassName + ".ps1");
 

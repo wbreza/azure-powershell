@@ -18,7 +18,7 @@ using Microsoft.Azure.Management.PowerBIEmbedded;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollection
 {
-    [Cmdlet(VerbsCommon.Get, Nouns.WorkspaceCollectionAccessKey), OutputType(typeof(PSWorkspaceCollectionAccessKey))]
+    [Cmdlet(VerbsCommon.Get, Nouns.WorkspaceCollectionAccessKeys), OutputType(typeof(PSWorkspaceCollectionAccessKey))]
     public class GetWorkspaceCollectionAccessKeys : WorkspaceCollectionBaseCmdlet
     {
         [Parameter(

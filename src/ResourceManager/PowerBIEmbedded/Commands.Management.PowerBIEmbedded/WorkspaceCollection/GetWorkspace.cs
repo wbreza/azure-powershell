@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.Management.PowerBIEmbedded.Models;
 using Microsoft.Azure.Management.PowerBIEmbedded;
-using Microsoft.Azure.Management.PowerBIEmbedded.Models;
 
 namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollection
 {
-    [Cmdlet(VerbsCommon.Set, Nouns.WorkspaceCollectionAccessKey), OutputType(typeof(PSWorkspaceCollectionAccessKey))]
-    public class SetWorkspaceCollectionAccessKey : WorkspaceCollectionBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, Nouns.Workspace), OutputType(typeof(PSWorkspace))]
+    public class GetWorkspace : WorkspaceCollectionBaseCmdlet
     {
         [Parameter(
             Position = 0,
@@ -39,24 +37,10 @@ namespace Microsoft.Azure.Commands.Management.PowerBIEmbedded.WorkspaceCollectio
         [ValidateNotNullOrEmpty]
         public string WorkspaceCollectionName { get; set; }
 
-        [Parameter(
-            Position = 2,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Access Key Name.")]
-        [ValidateNotNullOrEmpty]
-        public string KeyName { get; set; }
-
         public override void ExecuteCmdlet()
         {
-            var accessKeyRequest = new WorkspaceCollectionAccessKey((AccessKeyName)Enum.Parse(typeof(AccessKeyName), this.KeyName));
-
-            var accessKeys = this.PowerBIClient.WorkspaceCollections.RegenerateKey(
-                this.ResourceGroupName,
-                this.WorkspaceCollectionName,
-                accessKeyRequest);
-
-            this.WriteWorkspaceCollectionAccessKeys(accessKeys);
+            var workspaces = this.PowerBIClient.Workspaces.List(this.ResourceGroupName, this.WorkspaceCollectionName);
+            this.WriteWorkspaceList(workspaces);
         }
     }
 }
